@@ -54,6 +54,10 @@ if __name__ == "__main__":
     with open(log_file_path, 'wb') as f:
         pickle.dump(log_dict, f)
 
-    print(f"Log dictionary saved to {log_file_path}")
+     # Save global model
+    torch.save(aggregated_model, 'server/global_model.pt')
+    print("Global model saved to global_model.pt")
+
+
 
     
