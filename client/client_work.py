@@ -16,7 +16,7 @@ Output of clients inclule:
 
 """ Start Client """
 
-data_dir = "/content/b_cancer_data" ### path of dataset
+data_dir = "dataset\histopathological_breast_cancer_dataset" ### path of dataset
 batch_size = 32
 epochs = 10
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
