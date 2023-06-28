@@ -1,9 +1,4 @@
-pandas
-numpy
-flwr
 torch
 torchvision
-torchaudio
-optuna
-opacus
-matplotlib
+tqdm
+argparse
