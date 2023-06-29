@@ -34,13 +34,13 @@ Các tham số cấu hình khác có thể được truyền qua các đối s�
 
 Đoạn mã client tuân theo các bước sau:
 
->1.Tải bộ dữ liệu từ thư mục được chỉ định.
->2.Khởi tạo đối tượng client với cấu hình được cung cấp.
->3.Tải các tập dữ liệu vào các trình tải dữ liệu huấn luyện đồng thời tải mô hình kiểm tra mô hình từ server tải về cho vào file `client\Model_from_Server`.
->4.Thiết lập kiến trúc mô hình sử dụng `utils.model.CNNModel`.
->5.Huấn luyện mô hình sử dụng các tập dữ liệu đã tải ở file `client_work.py`.
->6.Đánh giá mô hình đã được huấn luyện ở `client_work.py`.
->7.Lưu mô hình ở dạng `file pytorch (.pt)` vào folder `client\Model_Client_update` và kết quả đánh giá (eval_list) vào tệp `eval_list.pkl` vào `client\log` bằng cách sử dụng `pickle` (lưu ý mỗi client có `eval_list.pkl` mỗi round federated learning).
+>1. Tải bộ dữ liệu từ thư mục được chỉ định. 
+>2. Khởi tạo đối tượng client với cấu hình được cung cấp. 
+>3. Tải các tập dữ liệu vào các trình tải dữ liệu huấn luyện đồng thời tải mô hình kiểm tra mô hình từ server tải về cho vào file `client\Model_from_Server`. 
+>4. Thiết lập kiến trúc mô hình sử dụng `utils.model.CNNModel`. 
+>5. Huấn luyện mô hình sử dụng các tập dữ liệu đã tải ở file `client_work.py`. 
+>6. Đánh giá mô hình đã được huấn luyện ở `client_work.py`. 
+>7. Lưu mô hình ở dạng `file pytorch (.pt)` vào folder `client\Model_Client_update` và kết quả đánh giá (eval_list) vào tệp `eval_list.pkl` vào `client\log` bằng cách sử dụng `pickle` (lưu ý mỗi client có `eval_list.pkl` mỗi round federated learning). 
 
 
 # Server 
@@ -61,18 +61,18 @@ Kịch bản này tạo ra các đầu ra sau:
 
 ## Luồng làm việc
 
->1.Sử dung `argparse` để config những cái cần thiết cho đầu vào đầu ra như tỷ lệ phần trăm tập dữ liệu được sử dụng để huấn luyện và kiểm tra, tỷ lệ học, kích thước batch, số vòng học phân tán, số epoch trong mỗi local worker, và chế độ `('fedavg' hoặc 'fedbn')`.
->2.Tạo một thể hiện của lớp Server.
->3.Tải mô hình gốc server bằng cách sử dụng đường dẫn mô hình server đã được cung cấp.
->4.Thêm các client vào server bằng cách chỉ định đường dẫn tới các mô hình và danh sách đánh giá của chúng.
->5.Truy cập mô hình từ folder `server\Model_from_Clients` của các client cá nhân bằng cách khởi tạo các client `(ví dụ: client_1 = server[0])`.
->6.Truy xuất danh sách đánh giá và mô hình từ các client từ `folder server\log`.
->7.Tính tỷ lệ số mẫu của client để thực hiện tổng hợp có trọng số.
->8.Tổng hợp các mô hình từ tất cả các client bằng cách sử dụng phương pháp tổng hợp được chỉ định `('fedavg' hoặc 'fedbn')`.
->9.Tính các chỉ số trung bình như mất mát huấn luyện, độ chính xác huấn luyện, mất mát đánh giá và độ chính xác đánh giá.
->10.Lưu trữ từ điển nhật ký là `log_dict` vào folder `server\log_server` chứa các chỉ số cho vòng học phân tán hiện tại.
->11.Lưu trữ mô hình toàn cầu trong ngay folder `server` luôn cũng được (ưng tạo folder chứa cũng được).
->12.In một thông báo xác nhận cho biết mô hình toàn cầu đã được lưu.
+>1. Sử dung `argparse` để config những cái cần thiết cho đầu vào đầu ra như tỷ lệ phần trăm tập dữ liệu được sử dụng để huấn luyện và kiểm tra, tỷ lệ học, kích thước batch, số vòng học phân tán, số epoch trong mỗi local worker, và chế độ `('fedavg' hoặc 'fedbn')`. 
+>2. Tạo một thể hiện của lớp Server. 
+>3. Tải mô hình gốc server bằng cách sử dụng đường dẫn mô hình server đã được cung cấp. 
+>4. Thêm các client vào server bằng cách chỉ định đường dẫn tới các mô hình và danh sách đánh giá của chúng. 
+>5. Truy cập mô hình từ folder `server\Model_from_Clients` của các client cá nhân bằng cách khởi tạo các client `(ví dụ: client_1 = server[0])`. 
+>6. Truy xuất danh sách đánh giá và mô hình từ các client từ `folder server\log`. 
+>7. Tính tỷ lệ số mẫu của client để thực hiện tổng hợp có trọng số. 
+>8. Tổng hợp các mô hình từ tất cả các client bằng cách sử dụng phương pháp tổng hợp được chỉ định `('fedavg' hoặc 'fedbn')`. 
+>9. Tính các chỉ số trung bình như mất mát huấn luyện, độ chính xác huấn luyện, mất mát đánh giá và độ chính xác đánh giá. 
+>10. Lưu trữ từ điển nhật ký là `log_dict` vào folder `server\log_server` chứa các chỉ số cho vòng học phân tán hiện tại. 
+>11. Lưu trữ mô hình toàn cầu trong ngay folder `server` luôn cũng được (ưng tạo folder chứa cũng được). 
+>12. In một thông báo xác nhận cho biết mô hình toàn cầu đã được lưu. 
 
 
 ## Ghi chú
