@@ -1,4 +1,6 @@
 # Đợi từ từ cập nhật nhaaa
+![Static Badge](https://img.shields.io/badge/federated%20learning-application-brightgreen)
+![Static Badge](https://img.shields.io/badge/web%20system-evolving-brightgreen)
 
 # Client 
 
