@@ -109,7 +109,7 @@ class Client(nn.Module):
             print("Cannot fit the model")
 
         test_loss, test_accuracy = test(
-            self.model, self.validloader, self.dataset_name, device=self.device
+            self.model, self.trainloader, self.dataset_name, device=self.device
         )
         test_dict = {
             "dataset": self.dataset_name,
