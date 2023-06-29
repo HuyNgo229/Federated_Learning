@@ -1,3 +1,4 @@
 dataset/histopathological_breast_cancer_dataset/train/
 dataset/histopathological_breast_cancer_dataset/valid
 dataset/b_cancer_data2.zip
+utils\predict_multi.py
