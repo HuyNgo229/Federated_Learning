@@ -61,6 +61,7 @@ Các tham số cấu hình khác có thể được truyền qua các đối s�
 Kịch bản này tạo ra các đầu ra sau:
 1. Tệp nhật ký: Một tệp nhật ký `(log_dict_round_{fl_round}.pickle)` được tạo ra cho mỗi vòng học phân tán. Nó chứa thông tin như số vòng học phân tán, mất mát huấn luyện theo từng epoch, mất mát đánh giá theo từng epoch, độ chính xác huấn luyện theo từng epoch và độ chính xác đánh giá theo từng epoch.
 2. Mô hình toàn cục: Mô hình tổng hợp từ tất cả các client được lưu trữ dưới dạng `global_model.pt` (lưu ở ngay trong file server cũng được) và sau đó file này sẽ được gửi xuống cho các client cập nhật.
+3. Các thông số lấy từ argpraser để truyền về cho client 
 
 ## Luồng làm việc
 
