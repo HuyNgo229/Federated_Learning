@@ -1,9 +1,11 @@
+import copy
 import torch
 import pickle
 import argparse
-from typing import List, Dict, Tuple
+from typing import List, Dict
 from server.clients_on_server import ClientOnServer
 from server.server import Server
+from utils.model import CNNModel
 
 
 
@@ -20,6 +22,8 @@ args = parser.parse_args()
 # Create instances of the classes and perform the operations
 if __name__ == "__main__":
     server = Server()
+    server.server_model = copy.deepcopy(CNNModel)
+
     server.load_server_model('Server_model_path.pt')
     server.add_client('server\Model_from_Clients/model1_round1.pt', 'server\log/eval_list1.pickle')
     server.add_client('server\Model_from_Clients/model2_round1.pt', 'server\log/eval_list2.pickle')
