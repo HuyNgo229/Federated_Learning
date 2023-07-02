@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>Home</h1>
+
+<h6><a href=" {% url 'server:add_client' %} ">Add client</a></h6>
+<h6><a href=" {% url 'server:edit_client' %} ">Edit client</a></h6>
+<h6><a href=" {% url 'server:detail_client' %} ">Detail client</a></h6>
+<h6><a href=" {% url 'server:remove_client' %} ">Remove client</a></h6>
+
+<script>
+    function get_data_form() {
+        var ip_address = $('#ip_address').val();
+        var port = $('#port').val();
+        var name = $('#name').val();
+        var param = {
+            'ip_address' : ip_address,
+            'port' : port,
+            'name' : name
+        }
+        console.log(param);
+        ajax_request(param);
+    }
+
+    function ajax_request(param={}) {
+        $.ajax({
+            type: "POST",
+            headers: {
+                'X-CSRFToken': '{{csrf_token}}'
+            },
+            dataType: "json",
+            url: '{% url 'server:add_client' %}',
+            data: {
+                'action':'add_new_client',
+                'params': JSON.stringify(param)
+            },
+            success: function(para) {
+                console.log(para)
+            },
+            error: function(para) {
+                console.log(para)
+            }
+        });
+    }
+
+</script>
+
+{% endblock %}
