@@ -5,7 +5,7 @@ import argparse
 from typing import List, Dict
 from server.clients_on_server import ClientOnServer
 from server.server import Server
-from utils.model import CNNModel
+from utils.model import create_cnn_model
 
 
 
@@ -22,6 +22,7 @@ args = parser.parse_args()
 # Create instances of the classes and perform the operations
 if __name__ == "__main__":
     server = Server()
+    CNNModel = create_cnn_model()
     server.server_model = copy.deepcopy(CNNModel)
 
     server.load_server_model('Server_model_path.pt')

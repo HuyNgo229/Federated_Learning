@@ -2,7 +2,7 @@ import os
 import torch
 from client import Client, eval_list
 import pickle
-from utils.model import CNNModel
+from utils.model import create_cnn_model
 import copy
 """ 
 Input of clients inclule:
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     trainloader, validloader, num_examples = client.load_datasets()
 
     # # Model architecture from utils\model.py
-
+    CNNModel = create_cnn_model()
     client.model = copy.deepcopy(CNNModel)
 
     # Fit model

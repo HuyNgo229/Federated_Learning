@@ -1,48 +1,70 @@
 """Define the model architecture."""
 
 
-from torch import nn
 
 
 # pylint: disable=unsubscriptable-object,too-many-instance-attributes
-class CNNModel(nn.Module):
-    """Model for benchmark experiment on Digits."""
+import torch
+model = torch.hub.load('pytorch/vision:v0.10.0', 'mobilenet_v2', pretrained=True)
+import torch.nn as nn
 
-    def __init__(self, num_classes=10):
-        super().__init__()
-        self.conv1 = nn.Conv2d(3, 64, 5, 1, 2)
-        self.bn1 = nn.BatchNorm2d(64)
-        self.conv2 = nn.Conv2d(64, 64, 5, 1, 2)
-        self.bn2 = nn.BatchNorm2d(64)
-        self.conv3 = nn.Conv2d(64, 128, 5, 1, 2)
-        self.bn3 = nn.BatchNorm2d(128)
+class MobileNetV2Config(nn.Module):
+    def __init__(self):
+        super(MobileNetV2Config, self).__init__()
 
-        self.fc1 = nn.Linear(6272, 2048)
-        self.bn4 = nn.BatchNorm1d(2048)
-        self.fc2 = nn.Linear(2048, 512)
-        self.bn5 = nn.BatchNorm1d(512)
-        self.fc3 = nn.Linear(512, num_classes)
+        self.features = nn.Sequential(
+            nn.Conv2d(3, 32, 3, stride=2, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU6(inplace=True),
 
-    # pylint: disable=arguments-differ,invalid-name
+            nn.Conv2d(32, 32, 3, stride=1, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU6(inplace=True),
+
+            nn.Conv2d(32, 16, 1, stride=1, padding=0),
+            nn.BatchNorm2d(16),
+            nn.ReLU6(inplace=True),
+
+            nn.InvertedResidual(16, 96, 1, 6),
+            nn.InvertedResidual(96, 144, 2, 6),
+            nn.InvertedResidual(144, 24, 2, 6),
+            nn.InvertedResidual(24, 144, 2, 6),
+            nn.InvertedResidual(144, 32, 2, 6),
+            nn.InvertedResidual(32, 192, 1, 6),
+            nn.InvertedResidual(192, 192, 2, 6),
+            nn.InvertedResidual(192, 48, 2, 6),
+            nn.InvertedResidual(48, 192, 2, 6),
+            nn.InvertedResidual(192, 64, 2, 6),
+            nn.InvertedResidual(64, 384, 1, 6),
+            nn.InvertedResidual(384, 384, 1, 6),
+            nn.InvertedResidual(384, 64, 1, 6),
+            nn.InvertedResidual(64, 384, 1, 6),
+            nn.InvertedResidual(384, 96, 1, 6),
+            nn.InvertedResidual(96, 576, 1, 6),
+            nn.InvertedResidual(576, 160, 2, 6),
+            nn.InvertedResidual(160, 960, 1, 6),
+            nn.Conv2d(960, 1280, 1, stride=1, padding=0),
+            nn.BatchNorm2d(1280),
+            nn.ReLU6(inplace=True)
+        )
+
+        self.classifier = nn.Linear(1280, 2)
+
     def forward(self, x):
-        """Forward pass."""
-        x = nn.functional.relu(self.bn1(self.conv1(x)))
-        x = nn.functional.max_pool2d(x, 2)
-
-        x = nn.functional.relu(self.bn2(self.conv2(x)))
-        x = nn.functional.max_pool2d(x, 2)
-
-        x = nn.functional.relu(self.bn3(self.conv3(x)))
-
-        x = x.view(x.shape[0], -1)
-
-        x = self.fc1(x)
-        x = self.bn4(x)
-        x = nn.functional.relu(x)
-
-        x = self.fc2(x)
-        x = self.bn5(x)
-        x = nn.functional.relu(x)
-
-        x = self.fc3(x)
+        x = self.features(x)
+        x = x.mean([2, 3])  # Global average pooling
+        x = self.classifier(x)
         return x
+
+
+def create_cnn_model():
+    model = torch.hub.load('pytorch/vision:v0.10.0', 'mobilenet_v2', pretrained=True)   
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    for param in model.parameters():
+        param.requires_grad = True
+    
+    model.classifier = nn.Linear(1280, 2)
+    CNNModel = model.to(device)
+    
+    return CNNModel
