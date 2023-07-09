@@ -1,5 +1,10 @@
-import os
 import torch
+import sys
+import os
+# add parent patt to sys.path
+current_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
 from client import Client, eval_list
 import pickle
 from utils.model import create_cnn_model
@@ -24,7 +29,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 percentage_of_dataset = 0.1
 dataset_name = "histopathological_breast_cancer_dataset"
 mode = "fedbn"
-server_model_path = "client\Model_from_Server/model.pt" ## path of model from server
+server_model_path = "client\Model_from_Server\global_model.pt" ## path of model from server
 client_model_path = "client\Model_Client_update/model_client.pt" ## path of model client will save and send to server
 
 if __name__ == "__main__":
